@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinosaur Zoo Simulator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin: 20px 0;
+      color: #333;
+    }
+    .store, .zoo {
+      margin: 20px auto;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      max-width: 600px;
+      background-color: #fff;
+    }
+    .dino {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .dino:last-child {
+      border-bottom: none;
+    }
+    .dino button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    .dino button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .money {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦖 Dinosaur Zoo Simulator 🦕</h1>
+  <div class="money">💰 Money: $<span id="money">100</span></div>
+  <div class="store">
+    <h2>🛒 Dino Store</h2>
+    <div id="store-items">
+      <!-- Dinosaur items will be dynamically added here -->
+    </div>
+  </div>
+  <div class="zoo">
+    <h2>🦖 Your Zoo</h2>
+    <div id="zoo">
+      <p>No dinosaurs yet! Buy some from the store.</p>
+    </div>
+  </div>
+  <script>
+    const dinosaurs = [
+      { name: "T-Rex 🦖", price: 50 },
+      { name: "Triceratops 🦕", price: 40 },
+      { name: "Velociraptor 🐉", price: 30 },
+      { name: "Stegosaurus 🦕", price: 25 },
+      { name: "Pterodactyl 🦅", price: 20 },
+    ];
+
+    let money = 100;
+    const moneyDisplay = document.getElementById("money");
+    const storeItems = document.getElementById("store-items");
+    const zoo = document.getElementById("zoo");
+
+    function updateMoneyDisplay() {
+      moneyDisplay.textContent = money;
+    }
+
+    function buyDinosaur(dino) {
+      if (money >= dino.price) {
+        money -= dino.price;
+        updateMoneyDisplay();
+        addDinosaurToZoo(dino.name);
+      } else {
+        alert("Not enough money to buy this dinosaur!");
+      }
+    }
+
+    function addDinosaurToZoo(dinoName) {
+      if (zoo.querySelector("p")) zoo.innerHTML = ""; // Remove default message
+      const dinoElement = document.createElement("div");
+      dinoElement.textContent = dinoName;
+      zoo.appendChild(dinoElement);
+    }
+
+    function renderStore() {
+      storeItems.innerHTML = ""; // Clear store items
+      dinosaurs.forEach((dino) => {
+        const dinoElement = document.createElement("div");
+        dinoElement.className = "dino";
+        dinoElement.innerHTML = `
+          <span>${dino.name} - $${dino.price}</span>
+          <button onclick="buyDinosaur(${JSON.stringify(dino)})" ${
+          money < dino.price ? "disabled" : ""
+        }>Buy</button>
+        `;
+        storeItems.appendChild(dinoElement);
+      });
+    }
+
+    renderStore();
+    updateMoneyDisplay();
+  </script>
+</body>
+</html>
