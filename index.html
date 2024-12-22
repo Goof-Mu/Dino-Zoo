@@ -16,13 +16,19 @@
       margin: 20px 0;
       color: #333;
     }
+    .money, .dino-count {
+      font-size: 1.2em;
+      margin: 10px 0;
+      color: #444;
+    }
     .store, .zoo {
       margin: 20px auto;
       padding: 10px;
       border: 2px solid #ccc;
       border-radius: 10px;
-      max-width: 600px;
+      max-width: 90%;
       background-color: #fff;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     }
     .dino {
       display: flex;
@@ -35,20 +41,26 @@
       border-bottom: none;
     }
     .dino button {
-      padding: 5px 10px;
+      padding: 8px 12px;
       border: none;
       border-radius: 5px;
       background-color: #28a745;
       color: white;
+      font-size: 0.9em;
       cursor: pointer;
     }
     .dino button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
     }
-    .money, .dino-count {
-      font-size: 1.5em;
+    .zoo div {
+      margin: 5px 0;
+      font-size: 1.1em;
+    }
+    footer {
       margin: 20px 0;
+      font-size: 0.9em;
+      color: #888;
     }
   </style>
 </head>
@@ -68,6 +80,9 @@
       <p>No dinosaurs yet! Buy some from the store.</p>
     </div>
   </div>
+  <footer>
+    Created for GitHub Pages | Optimized for Mobile
+  </footer>
   <script>
     const dinosaurs = [
       { name: "T-Rex 🦖", price: 50, income: 5 },
