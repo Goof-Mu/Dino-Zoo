@@ -46,7 +46,7 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
-    .money {
+    .money, .dino-count {
       font-size: 1.5em;
       margin: 20px 0;
     }
@@ -55,6 +55,7 @@
 <body>
   <h1>🦖 Dinosaur Zoo Simulator 🦕</h1>
   <div class="money">💰 Money: $<span id="money">100</span></div>
+  <div class="dino-count">🦖 Dinosaurs in Zoo: <span id="dino-count">0</span></div>
   <div class="store">
     <h2>🛒 Dino Store</h2>
     <div id="store-items">
@@ -69,15 +70,19 @@
   </div>
   <script>
     const dinosaurs = [
-      { name: "T-Rex 🦖", price: 50 },
-      { name: "Triceratops 🦕", price: 40 },
-      { name: "Velociraptor 🐉", price: 30 },
-      { name: "Stegosaurus 🦕", price: 25 },
-      { name: "Pterodactyl 🦅", price: 20 },
+      { name: "T-Rex 🦖", price: 50, income: 5 },
+      { name: "Triceratops 🦕", price: 40, income: 4 },
+      { name: "Velociraptor 🐉", price: 30, income: 3 },
+      { name: "Stegosaurus 🦕", price: 25, income: 2 },
+      { name: "Pterodactyl 🦅", price: 20, income: 1 },
+      { name: "Brachiosaurus 🦒", price: 60, income: 6 },
+      { name: "Spinosaurus 🐲", price: 70, income: 7 },
     ];
 
     let money = 100;
+    let totalDinosaurs = 0;
     const moneyDisplay = document.getElementById("money");
+    const dinoCountDisplay = document.getElementById("dino-count");
     const storeItems = document.getElementById("store-items");
     const zoo = document.getElementById("zoo");
 
@@ -85,21 +90,36 @@
       moneyDisplay.textContent = money;
     }
 
+    function updateDinoCountDisplay() {
+      dinoCountDisplay.textContent = totalDinosaurs;
+    }
+
     function buyDinosaur(dino) {
       if (money >= dino.price) {
         money -= dino.price;
+        totalDinosaurs++;
         updateMoneyDisplay();
-        addDinosaurToZoo(dino.name);
+        updateDinoCountDisplay();
+        addDinosaurToZoo(dino);
       } else {
         alert("Not enough money to buy this dinosaur!");
       }
     }
 
-    function addDinosaurToZoo(dinoName) {
+    function addDinosaurToZoo(dino) {
       if (zoo.querySelector("p")) zoo.innerHTML = ""; // Remove default message
       const dinoElement = document.createElement("div");
-      dinoElement.textContent = dinoName;
+      dinoElement.textContent = `${dino.name} (Income: $${dino.income}/sec)`;
       zoo.appendChild(dinoElement);
+      startGeneratingIncome(dino.income);
+    }
+
+    function startGeneratingIncome(income) {
+      setInterval(() => {
+        money += income;
+        updateMoneyDisplay();
+        renderStore();
+      }, 1000);
     }
 
     function renderStore() {
@@ -119,6 +139,7 @@
 
     renderStore();
     updateMoneyDisplay();
+    updateDinoCountDisplay();
   </script>
 </body>
 </html>
